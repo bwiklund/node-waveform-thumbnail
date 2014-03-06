@@ -90,5 +90,11 @@ class Waveform
     stream.on 'end', -> done && done()
 
 
+  renderAndSave: (path,done) ->
+    @render (err) =>
+      @save path, =>
+        done()
+
+
   
 module.exports = Waveform
