@@ -2,9 +2,10 @@ fs = require 'fs'
 Canvas = require 'canvas'
 
 
+
 class AudioLoader
   constructor: ->
-    @points = ( Math.random() for i in [0..10000] )
+    @points = ( Math.random() * 2 - 1 for i in [0..10000] )
 
   # to make cheaper, less fuzzy waveforms
   reduceDensity: (total) ->
@@ -12,8 +13,9 @@ class AudioLoader
     for p,i in @points
       j = ~~( i / @points.length * total )
       reducedPoints[j] ?= 0
-      reducedPoints[j] += @points[j] * total / @points.length
+      reducedPoints[j] += Math.abs @points[j] * total / @points.length
     @points = reducedPoints
+
 
 
 class Waveform
@@ -28,7 +30,7 @@ class Waveform
   # mocked for now
   loadAudio: ->
     audioLoader = new AudioLoader()
-    audioLoader.reduceDensity @options.w * 4
+    audioLoader.reduceDensity @options.w
     @points = audioLoader.points
 
 
