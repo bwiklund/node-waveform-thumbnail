@@ -1,5 +1,7 @@
+_ = require 'lodash'
 fs = require 'fs'
 Canvas = require 'canvas'
+
 
 
 # turn a dense array of numbers into a 
@@ -25,12 +27,15 @@ loadAudio = (path, density, done) ->
 
 
 class Waveform
-  constructor: (@path) ->
-    @options =
+  constructor: (@path,options) ->
+    defaults =
       w: 500
       h: 100
       backgroundColor: '#eeeeee'
       waveColor: '#333333'
+
+    @options = _.extend defaults, options
+
 
 
   render: (done) ->
@@ -75,15 +80,14 @@ class Waveform
       @ctx.fillStyle = grd# @options.backgroundColor
       @ctx.fill()
 
-      console.log 'loaded'
       done()
 
 
-  save: ->
-    out = fs.createWriteStream 'output.png'
+  save: (path,done) ->
+    out = fs.createWriteStream path
     stream = @canvas.pngStream()
     stream.on 'data', out.write.bind out
-    stream.on 'end', -> console.log 'done'
+    stream.on 'end', -> done && done()
 
 
   
