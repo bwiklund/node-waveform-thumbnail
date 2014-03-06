@@ -8,8 +8,11 @@ class AudioLoader
     # @points = ( Math.random() * 2 - 1 for i in [0..10000] )
 
   load: (done) ->
-    fs.readFile @path, (err,raw) ->
-      console.log raw
+    fs.readFile @path, (err,raw) =>
+      @points = for i in [0...raw.length/4]
+        raw.readInt32LE(i*4) / 0xffffffff * 8
+
+      done()
 
   # to make cheaper, less fuzzy waveforms
   reduceDensity: (total) ->
@@ -17,8 +20,9 @@ class AudioLoader
     for p,i in @points
       j = ~~( i / @points.length * total )
       reducedPoints[j] ?= 0
-      reducedPoints[j] += Math.abs @points[j] * total / @points.length
+      reducedPoints[j] += Math.abs @points[i] * total / @points.length
     @points = reducedPoints
+    # console.log @points
 
 
 
@@ -32,15 +36,16 @@ class Waveform
 
 
   # mocked for now
-  loadAudio: ->
+  loadAudio: (done) ->
     audioLoader = new AudioLoader @path
-    audioLoader.load ->
+    audioLoader.load =>
       audioLoader.reduceDensity @options.w
       @points = audioLoader.points
+      done()
 
 
   render: (done) ->
-    @loadAudio ->
+    @loadAudio =>
 
       # canvas setup
       {w,h} = @options
@@ -58,20 +63,23 @@ class Waveform
 
       for p,i in @points
         x = i / @points.length * w
-        y = p * h
+        y = h/2 - p * h/2
         @ctx.lineTo x, y
 
       @ctx.lineTo w, h
 
       for p,i in @points by -1
         x = i / @points.length * w
-        y = h - p * h
+        y = h/2 + p * h/2
         @ctx.lineTo x, y
 
       @ctx.lineTo 0, h/2
 
       @ctx.fillStyle = @options.waveColor
       @ctx.fill()
+
+      console.log 'loaded'
+      done()
 
 
   save: ->
