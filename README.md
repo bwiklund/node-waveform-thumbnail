@@ -48,3 +48,5 @@ waveform.render( function(err, ctx){
     console.log( "yay" );
   })
 });
+
+Pull requests and bug reports are very welcome. Thanks!
