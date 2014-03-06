@@ -4,8 +4,12 @@ Canvas = require 'canvas'
 
 
 class AudioLoader
-  constructor: ->
-    @points = ( Math.random() * 2 - 1 for i in [0..10000] )
+  constructor: (@path) ->
+    # @points = ( Math.random() * 2 - 1 for i in [0..10000] )
+
+  load: (done) ->
+    fs.readFile @path, (err,raw) ->
+      console.log raw
 
   # to make cheaper, less fuzzy waveforms
   reduceDensity: (total) ->
@@ -19,7 +23,7 @@ class AudioLoader
 
 
 class Waveform
-  constructor: ->
+  constructor: (@path) ->
     @options =
       w: 500
       h: 100
@@ -29,44 +33,45 @@ class Waveform
 
   # mocked for now
   loadAudio: ->
-    audioLoader = new AudioLoader()
-    audioLoader.reduceDensity @options.w
-    @points = audioLoader.points
+    audioLoader = new AudioLoader @path
+    audioLoader.load ->
+      audioLoader.reduceDensity @options.w
+      @points = audioLoader.points
 
 
-  render: ->
-    @loadAudio()
+  render: (done) ->
+    @loadAudio ->
 
-    # canvas setup
-    {w,h} = @options
-    @canvas = new Canvas w,h
-    @ctx = @canvas.getContext '2d'
+      # canvas setup
+      {w,h} = @options
+      @canvas = new Canvas w,h
+      @ctx = @canvas.getContext '2d'
 
-    # background
-    @ctx.fillStyle = @options.backgroundColor
-    @ctx.fillRect 0,0,w,h
+      # background
+      @ctx.fillStyle = @options.backgroundColor
+      @ctx.fillRect 0,0,w,h
 
-    # wave path
-    @ctx.beginPath()
+      # wave path
+      @ctx.beginPath()
 
-    @ctx.moveTo 0, h/2
+      @ctx.moveTo 0, h/2
 
-    for p,i in @points
-      x = i / @points.length * w
-      y = p * h
-      @ctx.lineTo x, y
+      for p,i in @points
+        x = i / @points.length * w
+        y = p * h
+        @ctx.lineTo x, y
 
-    @ctx.lineTo w, h
+      @ctx.lineTo w, h
 
-    for p,i in @points by -1
-      x = i / @points.length * w
-      y = h - p * h
-      @ctx.lineTo x, y
+      for p,i in @points by -1
+        x = i / @points.length * w
+        y = h - p * h
+        @ctx.lineTo x, y
 
-    @ctx.lineTo 0, h/2
+      @ctx.lineTo 0, h/2
 
-    @ctx.fillStyle = @options.waveColor
-    @ctx.fill()
+      @ctx.fillStyle = @options.waveColor
+      @ctx.fill()
 
 
   save: ->

@@ -1,8 +1,8 @@
 Waveform = require '../lib/waveform'
 
 
-waveform = new Waveform()
+waveform = new Waveform './song.raw'
 
 
-waveform.render()
-waveform.save()
+waveform.render ->
+  waveform.save()
