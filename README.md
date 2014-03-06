@@ -2,7 +2,15 @@
 
 ![Node waveform image generator](/docs/example.png)
 
-A simple audio waveform image generator with no dependencies outside npm.
+A simple audio waveform image generator with no hard dependencies outside npm.
+
+Just convert your audio to 32 bit little endian raw before converting. How you accomplish this depends on your platform, but here's how to do it with `sox`:
+
+```
+sox foo.mp3 --bits 32 --encoding signed-integer --endian little foo.raw remix 1,2
+```
+
+Currently I can't find and modules in NPM that will do this conversion for us without installing / compiling tools outside npm first. So I built this to work well in conjunction with `sox`, which is pretty well supported everywhere.
 
 # Basic usage
 
