@@ -53,6 +53,9 @@ class Waveform
       @ctx = @canvas.getContext '2d'
 
       # background
+      grd = @ctx.createLinearGradient 0,0,0,h
+      grd.addColorStop 0, "#333"
+      grd.addColorStop 1, "#444"
       @ctx.fillStyle = @options.backgroundColor
       @ctx.fillRect 0,0,w,h
 
@@ -75,7 +78,12 @@ class Waveform
 
       @ctx.lineTo 0, h/2
 
-      @ctx.fillStyle = @options.waveColor
+      grd = @ctx.createLinearGradient 0,0,0,h
+      grd.addColorStop 0, "#333"
+      grd.addColorStop 0.5, "#333"
+      grd.addColorStop 0.5, "#444"
+      grd.addColorStop 1, "#eee"
+      @ctx.fillStyle = grd# @options.backgroundColor
       @ctx.fill()
 
       console.log 'loaded'
