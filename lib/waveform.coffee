@@ -2,27 +2,25 @@ fs = require 'fs'
 Canvas = require 'canvas'
 
 
+# turn a dense array of numbers into a 
+# shorter one with windowed average values
+reduceDensity = (arr,density) ->
+  reducedPoints = []
+  for p,i in arr
+    j = ~~( i / arr.length * density )
+    reducedPoints[j] ?= 0
+    reducedPoints[j] += Math.abs arr[i] * density / arr.length
+  reducedPoints
 
-class AudioLoader
-  constructor: (@path) ->
-    # @points = ( Math.random() * 2 - 1 for i in [0..10000] )
 
-  load: (done) ->
-    fs.readFile @path, (err,raw) =>
-      @points = for i in [0...raw.length/4]
-        raw.readInt32LE(i*4) / 0xffffffff * 8
 
-      done()
-
-  # to make cheaper, less fuzzy waveforms
-  reduceDensity: (total) ->
-    reducedPoints = []
-    for p,i in @points
-      j = ~~( i / @points.length * total )
-      reducedPoints[j] ?= 0
-      reducedPoints[j] += Math.abs @points[i] * total / @points.length
-    @points = reducedPoints
-    # console.log @points
+# simple audio loader helper
+loadAudio = (path, density, done) ->
+  fs.readFile path, (err,raw) =>
+    points = for i in [0...raw.length/4]
+      raw.readInt32LE(i*4) / 0xffffffff * 8
+    points = reduceDensity points, density
+    done null, points
 
 
 
@@ -35,17 +33,8 @@ class Waveform
       waveColor: '#333333'
 
 
-  # mocked for now
-  loadAudio: (done) ->
-    audioLoader = new AudioLoader @path
-    audioLoader.load =>
-      audioLoader.reduceDensity @options.w
-      @points = audioLoader.points
-      done()
-
-
   render: (done) ->
-    @loadAudio =>
+    loadAudio @path, @options.w, (err, points) =>
 
       # canvas setup
       {w,h} = @options
@@ -64,15 +53,15 @@ class Waveform
 
       @ctx.moveTo 0, h/2
 
-      for p,i in @points
-        x = i / @points.length * w
+      for p,i in points
+        x = i / points.length * w
         y = h/2 - p * h/2
         @ctx.lineTo x, y
 
       @ctx.lineTo w, h
 
-      for p,i in @points by -1
-        x = i / @points.length * w
+      for p,i in points by -1
+        x = i / points.length * w
         y = h/2 + p * h/2
         @ctx.lineTo x, y
 
