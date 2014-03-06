@@ -1,3 +1,8 @@
 Waveform = require '../lib/waveform'
 
-Waveform()
+
+waveform = new Waveform()
+
+
+waveform.render()
+waveform.save()
