@@ -80,7 +80,7 @@ class Waveform
       @ctx.fillStyle = grd# @options.backgroundColor
       @ctx.fill()
 
-      done()
+      done null, @ctx
 
 
   save: (path,done) ->
