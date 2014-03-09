@@ -1,5 +1,6 @@
 {
-  "name": "node-waveform",
+  "author": "Ben Wiklund <ben@daisyowl.com>",
+  "name": "waveform-thumbnail",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -7,6 +8,10 @@
     "coffee-script": "~1.7.1",
     "canvas": "~1.1.3",
     "lodash": "~2.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bwiklund/node-waveform-thumbnail.git"
   },
   "devDependencies": {},
   "scripts": {
