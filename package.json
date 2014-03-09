@@ -1,7 +1,7 @@
 {
   "author": "Ben Wiklund <ben@daisyowl.com>",
   "name": "waveform-thumbnail",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "dependencies": {

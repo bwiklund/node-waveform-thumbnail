@@ -87,13 +87,13 @@ class Waveform
     out = fs.createWriteStream path
     stream = @canvas.pngStream()
     stream.on 'data', out.write.bind out
-    stream.on 'end', -> done && done()
+    stream.on 'end', -> done?()
 
 
   renderAndSave: (path,done) ->
     @render (err) =>
       @save path, =>
-        done()
+        done?()
 
 
   
