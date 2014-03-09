@@ -1,2 +1,2 @@
 require('coffee-script/register')
-require('./lib/waveform')
+module.exports = require('./lib/waveform')
