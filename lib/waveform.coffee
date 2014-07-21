@@ -63,7 +63,7 @@ class Waveform
         y = h/2 - p * h/2
         @ctx.lineTo x, y
 
-      @ctx.lineTo w, h
+      @ctx.lineTo w, h/2
 
       for p,i in points by -1
         x = i / points.length * w
