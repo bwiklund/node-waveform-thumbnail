@@ -61,10 +61,12 @@ waveform.render( function(err, ctx){
   ctx.fillStyle = 'red';
   ctx.fillRect( 0,0,10,10 );
   // etc
-  
+
   waveform.save( './myWaveformAndRedBox.png', function(err){
     console.log( "yay" );
   })
 });
+
+If you have trouble node-canvas running on OSX: [https://github.com/Automattic/node-canvas/wiki/Installation---OSX]
 
 Pull requests and bug reports are very welcome. Thanks!
