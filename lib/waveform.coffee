@@ -4,7 +4,7 @@ Canvas = require 'canvas'
 
 
 
-# turn a dense array of numbers into a 
+# turn a dense array of numbers into a
 # shorter one with windowed average values
 reduceDensity = (arr,density) ->
   reducedPoints = []
@@ -103,5 +103,5 @@ class Waveform
         done?()
 
 
-  
+
 module.exports = Waveform
