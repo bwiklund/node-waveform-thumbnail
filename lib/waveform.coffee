@@ -72,12 +72,14 @@ class Waveform
 
       @ctx.lineTo 0, h/2
 
-      grd = @ctx.createLinearGradient 0,0,0,h
-      grd.addColorStop 0, "#333"
-      grd.addColorStop 0.5, "#333"
-      grd.addColorStop 0.5, "#444"
-      grd.addColorStop 1, "#eee"
-      @ctx.fillStyle = grd# @options.backgroundColor
+      @ctx.fillStyle = if typeof @options.waveColor is 'object'
+        grd = @ctx.createLinearGradient 0,0,0,h
+        for stop in @options.waveColor
+          grd.addColorStop stop.stop, stop.color
+        grd
+      else
+        @options.waveColor
+
       @ctx.fill()
 
       done null, @ctx
