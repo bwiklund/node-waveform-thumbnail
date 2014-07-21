@@ -66,6 +66,7 @@ waveform.render( function(err, ctx){
     console.log( "yay" );
   })
 });
+```
 
 If you have trouble node-canvas running on OSX: [https://github.com/Automattic/node-canvas/wiki/Installation---OSX]
 
