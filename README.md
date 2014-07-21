@@ -35,6 +35,24 @@ var waveform = new Waveform( './someAudio.raw', {
 //...
 ```
 
+You can also define your own gradient. This is the default one:
+
+```javascript
+//...
+var waveform = new Waveform( './someAudio.raw', {
+  w: 500,
+  h: 100,
+  backgroundColor: '#333',
+  waveColor: [
+    {stop: 0,   color: "#333"},
+    {stop: 0.5, color: "#333"},
+    {stop: 0.5, color: "#444"},
+    {stop: 1,   color: "#eee"}
+  ]
+});
+//...
+```
+
 This tool is built on top of node canvas, and that canvas object is exposed if you want to do stuff with it before saving.
 
 ```javascript
