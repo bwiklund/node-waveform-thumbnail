@@ -68,6 +68,6 @@ waveform.render( function(err, ctx){
 });
 ```
 
-If you have trouble node-canvas running on OSX: [https://github.com/Automattic/node-canvas/wiki/Installation---OSX]
+If you have trouble node-canvas running on OSX: https://github.com/Automattic/node-canvas/wiki/Installation---OSX
 
 Pull requests and bug reports are very welcome. Thanks!
