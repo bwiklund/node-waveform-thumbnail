@@ -32,7 +32,12 @@ class Waveform
       w: 500
       h: 100
       backgroundColor: '#eeeeee'
-      waveColor: '#333333'
+      waveColor: [
+        {stop: 0,   color: "#333"}
+        {stop: 0.5, color: "#333"}
+        {stop: 0.5, color: "#444"}
+        {stop: 1,   color: "#eee"}
+      ]
 
     @options = _.extend defaults, options
 
